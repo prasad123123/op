@@ -1,0 +1,167 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class personal;
+class database{
+    int roll;
+    string name,class_name,dob,blood_grp,address,tel;
+    char div;
+    double lic_no;
+    public:
+    static int cnt;
+    database()
+    {
+        name = "abc";
+        roll=0;
+        class_name = "FE";
+        div='A';
+    }
+    void aceept( string name, string class_name,char div ,int roll)
+    {
+        cnt++;
+        this->name = name;
+        this->class_name = class_name;
+        this->roll = roll;
+        this->div = div;
+    }
+    inline void display()
+    {
+        cout<<"\n\t Name: "<<name;
+        cout<<"\n\t class:"<<class_name;
+        cout<<"\n\t Div: "<<div;
+        cout<<"\n\t Roll no:"<<roll;
+
+    }
+    ~database()
+    {}
+    static int show_cnt();
+    friend class personal;
+};
+int database::cnt=0;
+int database::show_cnt()
+{
+    return cnt;
+}
+class personal
+{
+    public:
+        void init(database *ptr)
+        {
+            ptr->dob="dd/mm/yyyy";
+            ptr->blood_grp="O+ve";
+            ptr->address="xyz area";
+            ptr->tel="1234567890";
+            ptr->lic_no=123456;
+
+        }
+        void aceept(database *ptr)
+        {
+            cout<<"\nEnter the date of birth : ";
+            cin>>ptr->dob;
+            cout<<"\nEnter the blood group : ";
+            cin>>ptr->blood_grp;
+            cout<<"\nEnter the contact address : ";
+            cin>>ptr->address;
+            bool flag=false;
+            while(flag==false)
+            {
+                try
+                {
+                    cout<<"\nEnter the telephone no. : ";
+                    cin>>ptr->tel;
+                    if (ptr->tel.length()!=10)
+                        throw 1;
+                    else
+                        break;
+
+                }
+                catch(int x)
+                {
+                    cout<<"\n\t invalid no. enter the valid no.!";
+                }
+            }
+            cout<<"\nEnter the lic no. : ";
+            cin>>ptr->lic_no;
+        }
+        void display(database *ptr)
+        {
+            cout<<"\n\t Date of Birth : "<<ptr->dob;
+            cout<<"\n\t Blood Group : "<<ptr->blood_grp;
+            cout<<"\n\t Address : "<<ptr->address;
+            cout<<"\n\t contact no. : "<<ptr->tel;
+            cout<<"\n\t driving lic no. : "<<ptr->lic_no;
+        }
+
+};
+int main()
+{
+    int i,n,choice,perrno;
+    string perclass,pername;
+    char perdiv;
+    database *ptr=NULL,*temp=NULL;
+    database objd;
+ 	personal obj;
+    cout<<"*****Welcome to our Database*****"<<endl;
+    do
+    {
+        cout<<"\n\t**********MENU**********\n \n\t1.Enter the records\n\t2.Display default record \n\t3.Display all records\n\t4.Exit"<<endl;
+ 		cout<<"\n Enter your choice:";
+ 		cin>>choice;
+       
+        switch(choice)
+        {
+            case 1:
+                cout<<"how many records do you want to enter : ";
+	 			cin>>n;
+                ptr=new database[n];
+                for(temp=ptr,i=0;temp!=NULL,i<n;temp++,i++)
+                {
+                    cout<<"\n Details of Student No."<<i+1;
+	 				cout<<"\n Enter the Name :";
+	 				cin>>pername;
+	 				cout<<"Enter the class :";
+	 				cin>>perclass;
+	 				cout<<"Enter the division :";
+	 				cin>>perdiv;
+	 				cout<<"Enter the roll no. :";
+	 				cin>>perrno;
+                    temp->aceept(pername,perclass,perdiv,perrno);
+                    obj.init(temp);
+                    obj.aceept(temp);
+	 				
+
+                }
+                break;
+            case 2: 
+                {
+                    cout<<"\n---------Default Record---------"<<endl;
+	 				objd.display();
+                    database *it=&objd;
+	 				obj.init(it);
+	 				obj.display(it);
+	 				cout<<"\n\n";
+	 				
+                }
+                break; 	
+            case 3:
+                cout<<"\n The Database has total"<<database::show_cnt()<<"records";
+ 				for(temp=ptr,i=0;temp!=NULL,i<n;temp++,i++)
+	 			{
+	 				cout<<"\n\n---------Details of the Student No."<<i+1<<"---------"<<endl;
+	 				temp->display();
+	 				cout<<"\n\n Personal Details :"<<endl;
+	 				obj.display(temp);
+	 			}
+                cout<<"\n---------END OF RECORDS IN DATABASE---------"<<endl;
+                break;
+ 			case 4:
+                delete[] ptr;
+ 				cout<<"\n Data in Database has been deleted successfully!";
+ 				cout<<"\n\t*****End of program*****";
+ 				cout<<"\n Thank You !";
+ 			default:cout<<"\n You have entered a wrong choice.Enter a valid choice!";
+ 		}
+ 	}while(choice!=4);
+ 	return 0;
+            
+}
