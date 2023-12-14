@@ -1,0 +1,61 @@
+#include<iostream>
+#define size 10
+using namespace std;
+int n;
+template<class T>
+void selection(T a[size])
+{
+    int i, j,min;
+    T temp;
+    for(i=0;i<n;i++)
+    {
+        min=i;
+        for (j=i+1;j<n;j++)
+        {
+            if (a[j]<a[min])
+                min=j;
+            
+        }
+        
+        temp=a[i];
+        a[i]=a[min];
+        a[min]=temp;
+
+    }
+    cout<<"\nthe sorted list is:\n ";
+    for(i=0;i<n;i++)
+    {
+        cout<<"\t"<<a[i];
+
+    }
+}
+
+int main()
+{
+    int i,A[size];
+    float B[size];
+    
+    
+    cout << "\n\t\tSelection Sort\n";
+    cout << "\n\tHandling Integer Elements\n";
+    cout << "\nHow Many Elements Are There??? ";
+    cin>>n;
+    cout<<"\n Enter the interger numbers: ";
+    for( i=0;i<n;i++)
+    {
+        cin>>A[i];
+    }
+    selection(A);
+
+
+    cout << "\n\tHandling Float Elements\n";
+    cout << "How Many Elements Are There?? ";
+    cin >> n;
+    cout << "\nEnter the Float numbers: ";
+    for (i = 0; i < n; i++)
+        cin >> B[i];
+    selection(B);
+    cout<< "\n";
+    return 0;
+
+}   
